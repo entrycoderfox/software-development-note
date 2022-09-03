@@ -220,7 +220,11 @@ $ vue -V
 注意：链接的名称是自定义的(此处自定义为vue)
 
 ### 五、转移至其他kylin电脑
-1.使用tar -cvf /usr/soft/node node.tar.xz将已经装好的文件进行打包
+1.使用
+```
+$ tar -cvf /usr/soft/node node.tar.xz
+```
+将已经装好的文件进行打包
 
 2.将打包好的文件 node.tar.xz 传入其他kylin电脑中
 
