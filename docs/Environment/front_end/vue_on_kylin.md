@@ -1,21 +1,19 @@
 # 在Kylin OS上安装VUE_CLI环境
 
-> author:entrycoder
-
-> create at : 2022-08-15    23:36 GMT +8
-
-> update at : 2022-09-03    21:03 GMT +8
+> author:entrycoder  
+> create at : 2022-08-15    23:36 GMT +8  
+> update at : 2022-09-03    21:03 GMT +8  
 
 
 
 参照内容
 > 单位网络管理员讲解
-
+> 
 > [https://blog.csdn.net/kingchen2010/article/details/120473243](https://blog.csdn.net/kingchen2010/article/details/120473243)
 > [https://www.php.cn/vuejs/481497.html](https://www.php.cn/vuejs/481497.html)
 
 
-### 〇、前提说明
+### **〇、前提说明**
 1.本次实操使用root用户，避免各类权限问题
 
 如果使用其他用户操作遇到了权限问题，可以在命令前加sudo，意为暂时使用系统管理员身份执行命令
@@ -25,7 +23,7 @@
 $ sudo vi /etc/profile
 ```
 
-### 一、包下载
+### **一、包下载**
 首先应当下载linux版本的node包(https://nodejs.org/en/download/),此处以LTS版本的node-v16.17.0-linux-x64.tar.xz为例进行说明
 
 注意要下载linux版本的包，可以下载至windows电脑，之后传输至linux电脑。也可以直接在联网的linux电脑中下载
@@ -35,7 +33,7 @@ $ sudo vi /etc/profile
 传输方式如图
 ![](./imgs/vue_on_kylin/Snipaste_2022-09-02_22-29-34_file-trans.png)
 
-### 二、检查系统原本环境
+### **二、检查系统原本环境**
 1.在正式配置下载的node之前，应当先检查本系统的环境，确认不存在其他版本的node以及npm，以免冲突
 
 检查node版本，使用
@@ -79,7 +77,7 @@ $ rm ./nodejs
 删除完成后，再次确认node版本，此时回提示未找到node，说明node已经被删除
 ![](./imgs/vue_on_kylin/Snipaste_2022-09-02_22-21-47_check-old-node-has-been-delete.png)
 
-### 三、准备新的node环境
+### **三、准备新的node环境**
 1.为避免权限问题造成无法识别可执行文件，先给文件夹赋予权限
 ```
 $ chmod 777 /usr/soft
@@ -159,7 +157,7 @@ $ npm -v
 
 ![](./imgs/vue_on_kylin/Snipaste_2022-09-02_22-35-53_source-profile.png)
 
-### 四、依赖包安装
+### **四、依赖包安装**
 1.为使用其他依赖包，可以通过
 ```
 $ npm install [packageName]
@@ -219,7 +217,7 @@ $ vue -V
 
 注意：链接的名称是自定义的(此处自定义为vue)
 
-### 五、转移至其他kylin电脑
+### **五、转移至其他kylin电脑**
 1.使用
 ```
 $ tar -cvf /usr/soft/node node.tar.xz
