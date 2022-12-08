@@ -80,6 +80,8 @@ nav:
     - Database/index.md
     - RDBMS:
       - MySQL: 
-        - MySQ教程 尚硅谷: Database/MySQL/mysql_tutorial__atguigu/mysql_tutorial__atguigu.md
+        - MySQ教程 尚硅谷: 
+          - 目录: Database/MySQL/mysql_tutorial__atguigu/目录.md
+          - 第01章_数据库概述: Database/MySQL/mysql_tutorial__atguigu/第01章_数据库概述/第01章_数据库概述.md
   - 关于:
     - index.md
