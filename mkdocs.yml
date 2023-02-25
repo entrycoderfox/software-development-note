@@ -81,7 +81,29 @@ nav:
     - RDBMS:
       - MySQL: 
         - MySQ教程 尚硅谷: 
-          - 目录: Database/MySQL/mysql_tutorial__atguigu/目录.md
-          - 第01章_数据库概述: Database/MySQL/mysql_tutorial__atguigu/第01章_数据库概述/第01章_数据库概述.md
+          - 作者的话: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/作者的话.md
+          - 修改记录: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/修改记录.md
+          - 目录: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/目录.md
+          - 文档-基础篇:
+            - 第00章_写在前面: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第00章_写在前面.md
+            - 第01章_数据库概述: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第01章_数据库概述.md
+            - 第02章_MySQL环境搭建: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第02章_MySQL环境搭建.md
+            - 第03章_基本的SELECT语句: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第03章_基本的SELECT语句.md
+            - 第04章_运算符: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第04章_运算符.md
+            - 第05章_排序与分页: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第05章_排序与分页.md
+            - 第06章_多表查询: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第06章_多表查询.md
+            - 第07章_单行函数: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第07章_单行函数.md
+            - 第08章_聚合函数: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第08章_聚合函数.md
+            - 第09章_子查询: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第09章_子查询.md
+            - 第10章_创建和管理表: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第10章_创建和管理表.md
+            - 第11章_数据处理之增删改: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第11章_数据处理之增删改.md
+            - 第12章_MySQL数据类型精讲: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第12章_MySQL数据类型精讲.md
+            - 第13章_约束: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第13章_约束.md
+            - 第14章_视图: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第14章_视图.md
+            - 第15章_存储过程与函数: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第15章_存储过程与函数.md
+            - 第16章_变量、流程控制与游标: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第16章_变量、流程控制与游标.md
+            - 第17章_触发器: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第17章_触发器.md
+            - 第18章_MySQL8其它新特性: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第18章_MySQL8其它新特性.md
+            - 第19章_写在最后: Database/MySQL/mysql_tutorial__atguigu_BV1iq4y1u7vj/md-docs/第19章_写在最后.md
   - 关于:
     - index.md
