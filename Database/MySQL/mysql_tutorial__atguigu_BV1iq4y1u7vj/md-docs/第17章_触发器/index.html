@@ -1,0 +1,2311 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="entrycoder的软件开发记事本">
+      
+      
+        <meta name="author" content="entrycoder">
+      
+      
+      
+        <link rel="prev" href="../%E7%AC%AC16%E7%AB%A0_%E5%8F%98%E9%87%8F%E3%80%81%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E4%B8%8E%E6%B8%B8%E6%A0%87/">
+      
+      
+        <link rel="next" href="../%E7%AC%AC18%E7%AB%A0_MySQL8%E5%85%B6%E5%AE%83%E6%96%B0%E7%89%B9%E6%80%A7/">
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.15">
+    
+    
+      
+        <title>第17章_触发器 - entrycoder的软件开发记事本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.113286f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../mkdocs/css/no-footer.css">
+    
+      <link rel="stylesheet" href="../../../../../mkdocs/css/unordered-list-symbols.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#17-_" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../../.." title="entrycoder的软件开发记事本" class="md-header__button md-logo" aria-label="entrycoder的软件开发记事本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            entrycoder的软件开发记事本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第17章_触发器
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../Environment/" class="md-tabs__link">
+        系统环境
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../" class="md-tabs__link md-tabs__link--active">
+        数据库
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        关于
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="entrycoder的软件开发记事本" class="md-nav__button md-logo" aria-label="entrycoder的软件开发记事本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    entrycoder的软件开发记事本
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../../../Environment/">系统环境</a>
+          
+            <label for="__nav_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          系统环境
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_1_2" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+          前端
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          前端
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../Environment/front_end/vue_on_kylin/" class="md-nav__link">
+        在Kylin上安装VUE-CLI等
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../../">数据库</a>
+          
+            <label for="__nav_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          数据库
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          RDBMS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          RDBMS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" checked>
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+          MySQL
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          MySQL
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1_1" checked>
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_1_1" id="__nav_2_2_1_1_label" tabindex="0">
+          MySQ教程 尚硅谷
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_2_1_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_2_1_1">
+          <span class="md-nav__icon md-icon"></span>
+          MySQ教程 尚硅谷
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E4%BD%9C%E8%80%85%E7%9A%84%E8%AF%9D/" class="md-nav__link">
+        作者的话
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/" class="md-nav__link">
+        修改记录
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E7%9B%AE%E5%BD%95/" class="md-nav__link">
+        目录
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1_1_4" checked>
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2_2_1_1_4" id="__nav_2_2_1_1_4_label" tabindex="0">
+          文档-基础篇
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_2_1_1_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_2_1_1_4">
+          <span class="md-nav__icon md-icon"></span>
+          文档-基础篇
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC00%E7%AB%A0_%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2/" class="md-nav__link">
+        第00章_写在前面
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC01%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A6%82%E8%BF%B0/" class="md-nav__link">
+        第01章_数据库概述
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC02%E7%AB%A0_MySQL%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" class="md-nav__link">
+        第02章_MySQL环境搭建
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC03%E7%AB%A0_%E5%9F%BA%E6%9C%AC%E7%9A%84SELECT%E8%AF%AD%E5%8F%A5/" class="md-nav__link">
+        第03章_基本的SELECT语句
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC04%E7%AB%A0_%E8%BF%90%E7%AE%97%E7%AC%A6/" class="md-nav__link">
+        第04章_运算符
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC05%E7%AB%A0_%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%88%86%E9%A1%B5/" class="md-nav__link">
+        第05章_排序与分页
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC06%E7%AB%A0_%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/" class="md-nav__link">
+        第06章_多表查询
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC07%E7%AB%A0_%E5%8D%95%E8%A1%8C%E5%87%BD%E6%95%B0/" class="md-nav__link">
+        第07章_单行函数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC08%E7%AB%A0_%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0/" class="md-nav__link">
+        第08章_聚合函数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC09%E7%AB%A0_%E5%AD%90%E6%9F%A5%E8%AF%A2/" class="md-nav__link">
+        第09章_子查询
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC10%E7%AB%A0_%E5%88%9B%E5%BB%BA%E5%92%8C%E7%AE%A1%E7%90%86%E8%A1%A8/" class="md-nav__link">
+        第10章_创建和管理表
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B9%8B%E5%A2%9E%E5%88%A0%E6%94%B9/" class="md-nav__link">
+        第11章_数据处理之增删改
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC12%E7%AB%A0_MySQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%B2%BE%E8%AE%B2/" class="md-nav__link">
+        第12章_MySQL数据类型精讲
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC13%E7%AB%A0_%E7%BA%A6%E6%9D%9F/" class="md-nav__link">
+        第13章_约束
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC14%E7%AB%A0_%E8%A7%86%E5%9B%BE/" class="md-nav__link">
+        第14章_视图
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC15%E7%AB%A0_%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E4%B8%8E%E5%87%BD%E6%95%B0/" class="md-nav__link">
+        第15章_存储过程与函数
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC16%E7%AB%A0_%E5%8F%98%E9%87%8F%E3%80%81%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E4%B8%8E%E6%B8%B8%E6%A0%87/" class="md-nav__link">
+        第16章_变量、流程控制与游标
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          第17章_触发器
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        第17章_触发器
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    讲师：尚硅谷-宋红康（江湖人称：康师傅）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    在实际开发中，我们经常会遇到这样的情况：有 2 个或者多个相互关联的表，如商品信息和库存信息分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    别存放在 2 个不同的数据表中，我们在添加一条新商品记录的时候，为了保证数据的完整性，必须同时
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    在库存表中添加一条库存记录。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    这样一来，我们就必须把这两个关联的操作步骤写到程序里面，而且要用事务包裹起来，确保这两个操
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    作成为一个原子操作，要么全部执行，要么全部不执行。要是遇到特殊情况，可能还需要对数据进行手
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    动维护，这样就很容易忘记其中的一步，导致数据缺失。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    这个时候，咱们可以使用触发器。 你可以创建一个触发器，让商品信息数据的插入操作自动触发库存数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    据的插入操作。 这样一来，就不用担心因为忘记添加库存数据而导致的数据缺失了。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 触发器概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    2. 触发器的创建
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-1" class="md-nav__link">
+    2. 1 创建触发器语法
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 1 创建触发器语法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    创建触发器的语法结构是：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    说明：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    表名：表示触发器监控的对象。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beforeafterbefore-after" class="md-nav__link">
+    BEFORE|AFTER：表示触发的时间。BEFORE 表示在事件之前触发；AFTER 表示在事件之后触发。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insertupdatedelete" class="md-nav__link">
+    INSERT|UPDATE|DELETE：表示触发的事件。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert" class="md-nav__link">
+    INSERT 表示插入记录时触发；
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    UPDATE 表示更新记录时触发；
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    DELETE 表示删除记录时触发。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqlbeginend" class="md-nav__link">
+    触发器执行的语句块：可以是单条SQL语句，也可以是由BEGIN...END结构组成的复合语句块。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2" class="md-nav__link">
+    2. 2 代码举例
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 2 代码举例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    举例 1 ：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    1 、创建数据表：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    举例 2 ：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newinsert" class="md-nav__link">
+    上面触发器声明过程中的NEW关键字代表INSERT添加语句的新记录。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 查看、删除触发器
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 查看、删除触发器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1" class="md-nav__link">
+    3. 1 查看触发器
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 1 查看触发器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    查看触发器是查看数据库中已经存在的触发器的定义、状态和语法信息等。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    方式 1 ：查看当前数据库的所有触发器的定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    方式 2 ：查看当前数据库中某个触发器的定义
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2" class="md-nav__link">
+    3. 2 删除触发器
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 2 删除触发器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#drop" class="md-nav__link">
+    触发器也是数据库对象，删除触发器也用DROP语句，语法格式如下：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 触发器的优缺点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 触发器的优缺点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1" class="md-nav__link">
+    4. 1 优点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 1 优点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    1 、触发器可以确保数据的完整性 。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    每当我们录入、删除和修改一条进货单明细数据的时候，进货单明细表里的数据就会发生变动。这个时
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    候，在进货单头表中的总计数量和总计金额就必须重新计算，否则，进货单头表中的总计数量和总计金
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    额就不等于进货单明细表中数量合计和金额合计了，这就是数据不一致。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    为了解决这个问题，我们就可以使用触发器， 规定每当进货单明细表有数据插入、修改和删除的操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    时，自动触发 2 步操作：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    1 ）重新计算进货单明细表中的数量合计和金额合计；
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    2 ）用第一步中计算出来的值更新进货单头表中的合计数量与合计金额。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    这样一来，进货单头表中的合计数量与合计金额的值，就始终与进货单明细表中计算出来的合计数量与
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    合计金额的值相同，数据就是一致的，不会互相矛盾。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_7" class="md-nav__link">
+    2 、触发器可以帮助我们记录操作日志。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    利用触发器，可以具体记录什么时间发生了什么。比如，记录修改会员储值金额的触发器，就是一个很
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    好的例子。这对我们还原操作执行时的具体场景，更好地定位问题原因很有帮助。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    3 、触发器还可以用在操作数据前，对数据进行合法性检查。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    比如，超市进货的时候，需要库管录入进货价格。但是，人为操作很容易犯错误，比如说在录入数量的
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    时候，把条形码扫进去了；录入金额的时候，看串了行，录入的价格远超售价，导致账面上的巨亏......
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    这些都可以通过触发器，在实际插入或者更新操作之前，对相应的数据进行检查，及时提示错误，防止
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    错误数据进入系统。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2" class="md-nav__link">
+    4. 2 缺点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 2 缺点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    1 、触发器最大的一个问题就是可读性差。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    因为触发器存储在数据库中，并且由事件驱动，这就意味着触发器有可能不受应用层的控制。这对系统
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    维护是非常有挑战的。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    比如，创建触发器用于修改会员储值操作。如果触发器中的操作出了问题，会导致会员储值金额更新失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    败。我用下面的代码演示一下：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3" class="md-nav__link">
+    4. 3 注意点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 3 注意点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-updatedelete-cascadeset-null" class="md-nav__link">
+    注意，如果在子表中定义了外键约束，并且外键指定了ON UPDATE/DELETE CASCADE/SET NULL子句，此
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    时修改父表被引用的键值或删除父表被引用的记录行时，也会引起子表的修改和删除操作，此时基于子
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatedelete" class="md-nav__link">
+    表的UPDATE和DELETE语句定义的触发器并不会被激活。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC18%E7%AB%A0_MySQL8%E5%85%B6%E5%AE%83%E6%96%B0%E7%89%B9%E6%80%A7/" class="md-nav__link">
+        第18章_MySQL8其它新特性
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E7%AC%AC19%E7%AB%A0_%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E/" class="md-nav__link">
+        第19章_写在最后
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../../..">关于</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          关于
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    讲师：尚硅谷-宋红康（江湖人称：康师傅）
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    在实际开发中，我们经常会遇到这样的情况：有 2 个或者多个相互关联的表，如商品信息和库存信息分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    别存放在 2 个不同的数据表中，我们在添加一条新商品记录的时候，为了保证数据的完整性，必须同时
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    在库存表中添加一条库存记录。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    这样一来，我们就必须把这两个关联的操作步骤写到程序里面，而且要用事务包裹起来，确保这两个操
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    作成为一个原子操作，要么全部执行，要么全部不执行。要是遇到特殊情况，可能还需要对数据进行手
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    动维护，这样就很容易忘记其中的一步，导致数据缺失。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    这个时候，咱们可以使用触发器。 你可以创建一个触发器，让商品信息数据的插入操作自动触发库存数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    据的插入操作。 这样一来，就不用担心因为忘记添加库存数据而导致的数据缺失了。
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    1. 触发器概述
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    2. 触发器的创建
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-1" class="md-nav__link">
+    2. 1 创建触发器语法
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 1 创建触发器语法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    创建触发器的语法结构是：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    说明：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    表名：表示触发器监控的对象。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beforeafterbefore-after" class="md-nav__link">
+    BEFORE|AFTER：表示触发的时间。BEFORE 表示在事件之前触发；AFTER 表示在事件之后触发。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insertupdatedelete" class="md-nav__link">
+    INSERT|UPDATE|DELETE：表示触发的事件。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#insert" class="md-nav__link">
+    INSERT 表示插入记录时触发；
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update" class="md-nav__link">
+    UPDATE 表示更新记录时触发；
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    DELETE 表示删除记录时触发。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqlbeginend" class="md-nav__link">
+    触发器执行的语句块：可以是单条SQL语句，也可以是由BEGIN...END结构组成的复合语句块。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-2" class="md-nav__link">
+    2. 2 代码举例
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 2 代码举例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    举例 1 ：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    1 、创建数据表：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    举例 2 ：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#newinsert" class="md-nav__link">
+    上面触发器声明过程中的NEW关键字代表INSERT添加语句的新记录。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 查看、删除触发器
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 查看、删除触发器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-1" class="md-nav__link">
+    3. 1 查看触发器
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 1 查看触发器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    查看触发器是查看数据库中已经存在的触发器的定义、状态和语法信息等。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    方式 1 ：查看当前数据库的所有触发器的定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    方式 2 ：查看当前数据库中某个触发器的定义
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-2" class="md-nav__link">
+    3. 2 删除触发器
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 2 删除触发器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#drop" class="md-nav__link">
+    触发器也是数据库对象，删除触发器也用DROP语句，语法格式如下：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    4. 触发器的优缺点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 触发器的优缺点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-1" class="md-nav__link">
+    4. 1 优点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 1 优点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    1 、触发器可以确保数据的完整性 。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    每当我们录入、删除和修改一条进货单明细数据的时候，进货单明细表里的数据就会发生变动。这个时
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    候，在进货单头表中的总计数量和总计金额就必须重新计算，否则，进货单头表中的总计数量和总计金
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    额就不等于进货单明细表中数量合计和金额合计了，这就是数据不一致。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    为了解决这个问题，我们就可以使用触发器， 规定每当进货单明细表有数据插入、修改和删除的操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    时，自动触发 2 步操作：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    1 ）重新计算进货单明细表中的数量合计和金额合计；
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    2 ）用第一步中计算出来的值更新进货单头表中的合计数量与合计金额。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    这样一来，进货单头表中的合计数量与合计金额的值，就始终与进货单明细表中计算出来的合计数量与
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    合计金额的值相同，数据就是一致的，不会互相矛盾。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_7" class="md-nav__link">
+    2 、触发器可以帮助我们记录操作日志。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    利用触发器，可以具体记录什么时间发生了什么。比如，记录修改会员储值金额的触发器，就是一个很
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    好的例子。这对我们还原操作执行时的具体场景，更好地定位问题原因很有帮助。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    3 、触发器还可以用在操作数据前，对数据进行合法性检查。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    比如，超市进货的时候，需要库管录入进货价格。但是，人为操作很容易犯错误，比如说在录入数量的
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    时候，把条形码扫进去了；录入金额的时候，看串了行，录入的价格远超售价，导致账面上的巨亏......
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    这些都可以通过触发器，在实际插入或者更新操作之前，对相应的数据进行检查，及时提示错误，防止
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    错误数据进入系统。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-2" class="md-nav__link">
+    4. 2 缺点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 2 缺点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    1 、触发器最大的一个问题就是可读性差。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    因为触发器存储在数据库中，并且由事件驱动，这就意味着触发器有可能不受应用层的控制。这对系统
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    维护是非常有挑战的。
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    比如，创建触发器用于修改会员储值操作。如果触发器中的操作出了问题，会导致会员储值金额更新失
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    败。我用下面的代码演示一下：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-3" class="md-nav__link">
+    4. 3 注意点
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 3 注意点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#on-updatedelete-cascadeset-null" class="md-nav__link">
+    注意，如果在子表中定义了外键约束，并且外键指定了ON UPDATE/DELETE CASCADE/SET NULL子句，此
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    时修改父表被引用的键值或删除父表被引用的记录行时，也会引起子表的修改和删除操作，此时基于子
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatedelete" class="md-nav__link">
+    表的UPDATE和DELETE语句定义的触发器并不会被激活。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+
+<h1 id="17-_">第 17 章_触发器<a class="headerlink" href="#17-_" title="Permanent link">&para;</a></h1>
+<h4 id="-">讲师：尚硅谷-宋红康（江湖人称：康师傅）<a class="headerlink" href="#-" title="Permanent link">&para;</a></h4>
+<p>官网： <strong><a href="http://www.atguigu.com">http://www.atguigu.com</a></strong></p>
+<h4 id="2">在实际开发中，我们经常会遇到这样的情况：有 2 个或者多个相互关联的表，如商品信息和库存信息分<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<h4 id="2_1">别存放在 2 个不同的数据表中，我们在添加一条新商品记录的时候，为了保证数据的完整性，必须同时<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<h4 id="_1">在库存表中添加一条库存记录。<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<h4 id="_2">这样一来，我们就必须把这两个关联的操作步骤写到程序里面，而且要用事务包裹起来，确保这两个操<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<h4 id="_3">作成为一个原子操作，要么全部执行，要么全部不执行。要是遇到特殊情况，可能还需要对数据进行手<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<h4 id="_4">动维护，这样就很容易忘记其中的一步，导致数据缺失。<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<h4 id="_5">这个时候，咱们可以使用触发器。 你可以创建一个触发器，让商品信息数据的插入操作自动触发库存数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<h4 id="_6">据的插入操作。 这样一来，就不用担心因为忘记添加库存数据而导致的数据缺失了。<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<h2 id="1">1. 触发器概述<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>MySQL从5.0.2版本开始支持触发器。MySQL的触发器和存储过程一样，都是嵌入到MySQL服务器的一
+段程序。</p>
+<p>触发器是由事件来触发某个操作，这些事件包括INSERT、UPDATE、DELETE事件。所谓事件就是指
+用户的动作或者触发某项行为。如果定义了触发程序，当数据库执行这些语句时候，就相当于事件发生
+了，就会自动激发触发器执行相应的操作。</p>
+<p>当对数据表中的数据执行插入、更新和删除操作，需要自动执行一些数据库逻辑时，可以使用触发器来
+实现。</p>
+<h2 id="2_2">2. 触发器的创建<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h2>
+<h2 id="2-1">2. 1 创建触发器语法<a class="headerlink" href="#2-1" title="Permanent link">&para;</a></h2>
+<h4 id="_7">创建触发器的语法结构是：<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<h4 id="_8">说明：<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<h4 id="_9">表名：表示触发器监控的对象。<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<h4 id="beforeafterbefore-after">BEFORE|AFTER：表示触发的时间。BEFORE 表示在事件之前触发；AFTER 表示在事件之后触发。<a class="headerlink" href="#beforeafterbefore-after" title="Permanent link">&para;</a></h4>
+<h4 id="insertupdatedelete">INSERT|UPDATE|DELETE：表示触发的事件。<a class="headerlink" href="#insertupdatedelete" title="Permanent link">&para;</a></h4>
+<h4 id="insert">INSERT 表示插入记录时触发；<a class="headerlink" href="#insert" title="Permanent link">&para;</a></h4>
+<h4 id="update">UPDATE 表示更新记录时触发；<a class="headerlink" href="#update" title="Permanent link">&para;</a></h4>
+<h4 id="delete">DELETE 表示删除记录时触发。<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>CREATE TRIGGER 触发器名称
+{BEFORE|AFTER} {INSERT|UPDATE|DELETE} ON 表名
+FOR EACH ROW
+触发器执行的语句块;
+</code></pre></div>
+<h4 id="sqlbeginend">触发器执行的语句块：可以是单条SQL语句，也可以是由BEGIN...END结构组成的复合语句块。<a class="headerlink" href="#sqlbeginend" title="Permanent link">&para;</a></h4>
+<h3 id="2-2">2. 2 代码举例<a class="headerlink" href="#2-2" title="Permanent link">&para;</a></h3>
+<h4 id="1_1">举例 1 ：<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<h4 id="1_2">1 、创建数据表：<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h4>
+<p>2 、创建触发器：创建名称为before_insert的触发器，向test_trigger数据表插入数据之前，向
+test_trigger_log数据表中插入before_insert的日志信息。</p>
+<p>3 、向test_trigger数据表中插入数据</p>
+<p>4 、查看test_trigger_log数据表中的数据</p>
+<h4 id="2_3">举例 2 ：<a class="headerlink" href="#2_3" title="Permanent link">&para;</a></h4>
+<p>1 、创建名称为after_insert的触发器，向test_trigger数据表插入数据之后，向test_trigger_log数据表中插
+入after_insert的日志信息。</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE test_trigger (
+id INT PRIMARY KEY AUTO_INCREMENT,
+t_note VARCHAR( 30 )
+);
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>CREATE TABLE test_trigger_log (
+id INT PRIMARY KEY AUTO_INCREMENT,
+t_log VARCHAR( 30 )
+);
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>DELIMITER //
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>CREATE TRIGGER before_insert
+BEFORE INSERT ON test_trigger
+FOR EACH ROW
+BEGIN
+INSERT INTO test_trigger_log (t_log)
+VALUES(&#39;before_insert&#39;);
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>END //
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>DELIMITER ;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>INSERT INTO test_trigger (t_note) VALUES (&#39;测试 BEFORE INSERT 触发器&#39;);
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>mysql&gt; SELECT * FROM test_trigger_log;
++----+---------------+
+| id | t_log |
++----+---------------+
+| 1 | before_insert |
++----+---------------+
+1 row in set (0.00 sec)
+</code></pre></div>
+<p>2 、向test_trigger数据表中插入数据。</p>
+<p>3 、查看test_trigger_log数据表中的数据</p>
+<p><strong>举例 3 ：</strong> 定义触发器“salary_check_trigger”，基于员工表“employees”的INSERT事件，在INSERT之前检查
+将要添加的新员工薪资是否大于他领导的薪资，如果大于领导薪资，则报sqlstate_value为'HY000'的错
+误，从而使得添加失败。</p>
+<h4 id="newinsert">上面触发器声明过程中的NEW关键字代表INSERT添加语句的新记录。<a class="headerlink" href="#newinsert" title="Permanent link">&para;</a></h4>
+<h2 id="3">3. 查看、删除触发器<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>DELIMITER //
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>CREATE TRIGGER after_insert
+AFTER INSERT ON test_trigger
+FOR EACH ROW
+BEGIN
+INSERT INTO test_trigger_log (t_log)
+VALUES(&#39;after_insert&#39;);
+END //
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>DELIMITER ;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>INSERT INTO test_trigger (t_note) VALUES (&#39;测试 AFTER INSERT 触发器&#39;);
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>mysql&gt; SELECT * FROM test_trigger_log;
++----+---------------+
+| id | t_log |
++----+---------------+
+| 1 | before_insert |
+| 2 | before_insert |
+| 3 | after_insert |
++----+---------------+
+3 rows in set (0.00 sec)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>DELIMITER //
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>CREATE TRIGGER salary_check_trigger
+BEFORE INSERT ON employees FOR EACH ROW
+BEGIN
+DECLARE mgrsalary DOUBLE;
+SELECT salary INTO mgrsalary FROM employees WHERE employee_id = NEW.manager_id;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>IF NEW.salary &gt; mgrsalary THEN
+SIGNAL SQLSTATE &#39;HY000&#39; SET MESSAGE_TEXT = &#39;薪资高于领导薪资错误&#39;;
+END IF;
+END //
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>DELIMITER ;
+</code></pre></div>
+<h3 id="3-1">3. 1 查看触发器<a class="headerlink" href="#3-1" title="Permanent link">&para;</a></h3>
+<h4 id="_10">查看触发器是查看数据库中已经存在的触发器的定义、状态和语法信息等。<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<h4 id="1_3">方式 1 ：查看当前数据库的所有触发器的定义<a class="headerlink" href="#1_3" title="Permanent link">&para;</a></h4>
+<h4 id="2_4">方式 2 ：查看当前数据库中某个触发器的定义<a class="headerlink" href="#2_4" title="Permanent link">&para;</a></h4>
+<p>方式 3 ：从系统库information_schema的TRIGGERS表中查询“salary_check_trigger”触发器的信息。</p>
+<h3 id="3-2">3. 2 删除触发器<a class="headerlink" href="#3-2" title="Permanent link">&para;</a></h3>
+<h4 id="drop">触发器也是数据库对象，删除触发器也用DROP语句，语法格式如下：<a class="headerlink" href="#drop" title="Permanent link">&para;</a></h4>
+<h2 id="4">4. 触发器的优缺点<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<h3 id="4-1">4. 1 优点<a class="headerlink" href="#4-1" title="Permanent link">&para;</a></h3>
+<h4 id="1_4">1 、触发器可以确保数据的完整性 。<a class="headerlink" href="#1_4" title="Permanent link">&para;</a></h4>
+<p>假设我们用进货单头表（demo.importhead）来保存进货单的总体信息，包括进货单编号、供货商编
+号、仓库编号、总计进货数量、总计进货金额和验收日期。</p>
+<p>用进货单明细表（demo.importdetails）来保存进货商品的明细，包括进货单编号、商品编号、进货数
+量、进货价格和进货金额。</p>
+<div class="highlight"><pre><span></span><code>SHOW TRIGGERS\G
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>SHOW CREATE TRIGGER 触发器名
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>SELECT * FROM information_schema.TRIGGERS;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>DROP TRIGGER IF EXISTS 触发器名称;
+</code></pre></div>
+<h4 id="_11">每当我们录入、删除和修改一条进货单明细数据的时候，进货单明细表里的数据就会发生变动。这个时<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<h4 id="_12">候，在进货单头表中的总计数量和总计金额就必须重新计算，否则，进货单头表中的总计数量和总计金<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<h4 id="_13">额就不等于进货单明细表中数量合计和金额合计了，这就是数据不一致。<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<h4 id="_14">为了解决这个问题，我们就可以使用触发器， 规定每当进货单明细表有数据插入、修改和删除的操作<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<h4 id="2_5">时，自动触发 2 步操作：<a class="headerlink" href="#2_5" title="Permanent link">&para;</a></h4>
+<h4 id="1_5">1 ）重新计算进货单明细表中的数量合计和金额合计；<a class="headerlink" href="#1_5" title="Permanent link">&para;</a></h4>
+<h4 id="2_6">2 ）用第一步中计算出来的值更新进货单头表中的合计数量与合计金额。<a class="headerlink" href="#2_6" title="Permanent link">&para;</a></h4>
+<h4 id="_15">这样一来，进货单头表中的合计数量与合计金额的值，就始终与进货单明细表中计算出来的合计数量与<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h4>
+<h4 id="_16">合计金额的值相同，数据就是一致的，不会互相矛盾。<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
+<h4 id="2_7">2 、触发器可以帮助我们记录操作日志。<a class="headerlink" href="#2_7" title="Permanent link">&para;</a></h4>
+<h4 id="_17">利用触发器，可以具体记录什么时间发生了什么。比如，记录修改会员储值金额的触发器，就是一个很<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h4>
+<h4 id="_18">好的例子。这对我们还原操作执行时的具体场景，更好地定位问题原因很有帮助。<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
+<h4 id="3_1">3 、触发器还可以用在操作数据前，对数据进行合法性检查。<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h4>
+<h4 id="_19">比如，超市进货的时候，需要库管录入进货价格。但是，人为操作很容易犯错误，比如说在录入数量的<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h4>
+<h4 id="_20">时候，把条形码扫进去了；录入金额的时候，看串了行，录入的价格远超售价，导致账面上的巨亏......<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h4>
+<h4 id="_21">这些都可以通过触发器，在实际插入或者更新操作之前，对相应的数据进行检查，及时提示错误，防止<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h4>
+<h4 id="_22">错误数据进入系统。<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h4>
+<h3 id="4-2">4. 2 缺点<a class="headerlink" href="#4-2" title="Permanent link">&para;</a></h3>
+<h4 id="1_6">1 、触发器最大的一个问题就是可读性差。<a class="headerlink" href="#1_6" title="Permanent link">&para;</a></h4>
+<h4 id="_23">因为触发器存储在数据库中，并且由事件驱动，这就意味着触发器有可能不受应用层的控制。这对系统<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h4>
+<h4 id="_24">维护是非常有挑战的。<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h4>
+<h4 id="_25">比如，创建触发器用于修改会员储值操作。如果触发器中的操作出了问题，会导致会员储值金额更新失<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h4>
+<h4 id="_26">败。我用下面的代码演示一下：<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h4>
+<p>结果显示，系统提示错误，字段“aa”不存在。</p>
+<p>这是因为，触发器中的数据插入操作多了一个字段，系统提示错误。可是，如果你不了解这个触发器，
+很可能会认为是更新语句本身的问题，或者是会员信息表的结构出了问题。说不定你还会给会员信息表
+添加一个叫“aa”的字段，试图解决这个问题，结果只能是白费力。</p>
+<p><strong>2 、相关数据的变更，可能会导致触发器出错。</strong></p>
+<p>特别是数据表结构的变更，都可能会导致触发器出错，进而影响数据操作的正常运行。这些都会由于触
+发器本身的隐蔽性，影响到应用中错误原因排查的效率。</p>
+<h3 id="4-3">4. 3 注意点<a class="headerlink" href="#4-3" title="Permanent link">&para;</a></h3>
+<h4 id="on-updatedelete-cascadeset-null">注意，如果在子表中定义了外键约束，并且外键指定了ON UPDATE/DELETE CASCADE/SET NULL子句，此<a class="headerlink" href="#on-updatedelete-cascadeset-null" title="Permanent link">&para;</a></h4>
+<h4 id="_27">时修改父表被引用的键值或删除父表被引用的记录行时，也会引起子表的修改和删除操作，此时基于子<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h4>
+<h4 id="updatedelete">表的UPDATE和DELETE语句定义的触发器并不会被激活。<a class="headerlink" href="#updatedelete" title="Permanent link">&para;</a></h4>
+<p>例如：基于子表员工表（t_employee）的DELETE语句定义了触发器t1，而子表的部门编号（did）字段定
+义了外键约束引用了父表部门表（t_department）的主键列部门编号（did），并且该外键加了“ON
+DELETE SET NULL”子句，那么如果此时删除父表部门表（t_department）在子表员工表（t_employee）
+有匹配记录的部门记录时，会引起子表员工表（t_employee）匹配记录的部门编号（did）修改为NULL，</p>
+<div class="highlight"><pre><span></span><code>mysql&gt; update demo.membermaster set memberdeposit= 20 where memberid = 2 ;
+ERROR 1054 ( 42 S22): Unknown column &#39;aa&#39; in &#39;field list&#39;
+</code></pre></div>
+<p>但是此时不会激活触发器t1。只有直接对子表员工表（t_employee）执行DELETE语句时才会激活触发器
+t1。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide"], "search": "../../../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      
+        <script src="../../../../../mkdocs/javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
